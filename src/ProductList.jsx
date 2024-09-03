@@ -10,6 +10,8 @@ function ProductList() {
   const [addedToCart, setAddedToCart] = useState({});
   const dispatch = useDispatch();
 
+  
+
   const plantsArray = [
     {
       category: "Air Purifying Plants",
