@@ -4,13 +4,14 @@ import { useDispatch } from "react-redux";
 import CartItem from "./CartItem";
 import { addItem } from "./CartSlice";
 
+import { useSelector } from "react-redux";
+
 function ProductList() {
   const [showCart, setShowCart] = useState(false);
   const [showPlants, setShowPlants] = useState(false); // State to control the visibility of the About Us page
   const [addedToCart, setAddedToCart] = useState({});
   const dispatch = useDispatch();
-
-  
+  const totalQuantity = useSelector((state) => state.cart.totalQuantity);
 
   const plantsArray = [
     {
@@ -326,7 +327,7 @@ function ProductList() {
               <h1 className="cart">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 256 256"
+                  viewBox="0 0 256 250"
                   id="IconChangeColor"
                   height="68"
                   width="68"
@@ -344,8 +345,13 @@ function ProductList() {
                     id="mainIconPathAttribute"
                   ></path>
                 </svg>
+                {/* Display total quantity */}
+                {totalQuantity > 0 && (
+                  <span className="cart-quantity-badge">{totalQuantity}</span>
+                )}
               </h1>
             </a>
+
           </div>
         </div>
       </div>
@@ -353,7 +359,7 @@ function ProductList() {
         <div className="product-grid">
           {plantsArray.map((category, index) => (
             <div key={index}>
-                <hr />
+              <hr />
               <h1>
                 <div className="category-name">{category.category}</div>
               </h1>
@@ -373,9 +379,13 @@ function ProductList() {
                       onClick={() => handleAddToCart(plant)}
                       disabled={addedToCart[plant.name]}
                       style={{
-                        backgroundColor: addedToCart[plant.name] ? 'gray' : '#4CAF50', // Button color changes to gray when disabled
-                        color: 'white', 
-                        cursor: addedToCart[plant.name] ? 'not-allowed' : 'pointer', // Changes the cursor when disabled
+                        backgroundColor: addedToCart[plant.name]
+                          ? "gray"
+                          : "#4CAF50", // Button color changes to gray when disabled
+                        color: "white",
+                        cursor: addedToCart[plant.name]
+                          ? "not-allowed"
+                          : "pointer", // Changes the cursor when disabled
                       }}
                     >
                       {addedToCart[plant.name]

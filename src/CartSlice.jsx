@@ -8,10 +8,10 @@ const parseCost = (cost) => {
 export const CartSlice = createSlice({
     name: 'cart',
     initialState: {
-        items: [], // Initialize items as an empty array
+        items: [],
+        totalQuantity: 0 // Initialize items as an empty array
     },
-    reducers: {
-   
+    reducers: {  
         
         addItem: (state, action) => {
             const { name, image, cost } = action.payload;
@@ -23,9 +23,14 @@ export const CartSlice = createSlice({
             } else {
                 state.items.push({ name, image, cost: numericCost, quantity: 1 }); // Highlighted change: Use numericCost
             }
+
+            state.totalQuantity = calculateTotalQuantity(state.items); 
         },
+
+
         removeItem: (state, action) => {
             state.items = state.items.filter(item => item.name !== action.payload.name); // Highlighted change
+            state.totalQuantity = calculateTotalQuantity(state.items); // Update total quantity
         },
         updateQuantity: (state, action) => {
             const { name, quantity } = action.payload;
@@ -33,6 +38,7 @@ export const CartSlice = createSlice({
             if (itemToUpdate) {
                 // Adjustment: Ensure quantity is a positive integer
                 itemToUpdate.quantity = Math.max(1, quantity); // Highlighted change
+                state.totalQuantity = calculateTotalQuantity(state.items); // Update total quantity
             }
 
 
@@ -40,6 +46,12 @@ export const CartSlice = createSlice({
     },
 });
 
+const calculateTotalQuantity = (items) => {
+    return items.reduce((total, item) => total + Number(item.quantity), 0);
+  };
+
 export const { addItem, removeItem, updateQuantity } = CartSlice.actions;
+
+
 
 export default CartSlice.reducer;
