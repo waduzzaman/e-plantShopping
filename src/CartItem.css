@@ -104,10 +104,10 @@
 .cart-item {
     display: flex;
     border-bottom: 1px solid #ccc;
-    padding: 10px 0;
+    padding: 10px 5px;
     background-color: white;
     width: 500px;
-    gap: 30px;
+    /* gap: 30px; */
   }
   
   .cart-item-image {
@@ -115,6 +115,8 @@
     height: 200px;
     /* object-fit: contain; */
     margin-right: 20px;
+    padding: 2px;
+    
   }
   
   .cart-item-details {
